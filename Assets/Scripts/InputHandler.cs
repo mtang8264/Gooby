@@ -13,10 +13,14 @@ public class InputHandler : MonoBehaviour
 {
     // Joysticks
     public static Vector2 leftStick;
+    public static Vector2 leftStickLastFrame;
     public static Vector2 rightStick;
+    public static Vector2 rightStickLastFrame;
     // Triggers
     public static float leftTrigger;
+    public static float leftTriggerLastFrame;
     public static float rightTrigger;
+    public static float rightTriggerLastFrame;
     // Bumpers
     public static bool leftBumper;
     public static bool rightBumper;
@@ -38,12 +42,18 @@ public class InputHandler : MonoBehaviour
     void Update()
     {
         // Joysticks
+        leftStickLastFrame.x = leftStick.x;
         leftStick.x = Input.GetAxis("Left_Stick_Horizontal");   // X axis
+        leftStickLastFrame.y = leftStick.y;
         leftStick.y = Input.GetAxis("Left_Stick_Vertical");     // Y axis - inverted
+        rightStickLastFrame.x = rightStick.x;
         rightStick.x = Input.GetAxis("Right_Stick_Horizontal"); // 3rd axis
+        rightStickLastFrame.y = rightStick.y;
         rightStick.y = Input.GetAxis("Right_Stick_Vertical");   // 6th axis - inverted
         // Triggers
+        leftTriggerLastFrame = leftTrigger;
         leftTrigger = Input.GetAxis("Left_Trigger");            // 4th axis - inverted
+        rightTriggerLastFrame = rightTrigger;
         rightTrigger = Input.GetAxis("Right_Trigger");          // 5th axis - inverted
         // Bumpers
         leftBumper = Input.GetButton("Left_Bumper");            // joystick button 4

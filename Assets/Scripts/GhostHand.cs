@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GhostHand : MonoBehaviour
 {
+    private bool colliding = false;
+    public bool isColliding { get { return colliding; } }
+
     [SerializeField]
     SpriteRenderer[] sprites;
 
@@ -70,5 +73,14 @@ public class GhostHand : MonoBehaviour
             foreach (SpriteRenderer sr in sprites)
                 sr.enabled = false;
         }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        colliding = true;
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        colliding = false;
     }
 }

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Hand : MonoBehaviour
 {
+    [SerializeField]
+    GhostHand ghostHand;
+
     Transform body;                     // This a reference to the body of Gooby. I had the hand childed to the body before but it messed with the physics because it was concidered part of the same rigidbody.
     DistanceJoint2D distanceJoint;      // This is the joint which controls how far the body can be from the hand when it's grabbing something.
 
@@ -28,6 +31,8 @@ public class Hand : MonoBehaviour
 
     [SerializeField]
     float armExtentionSpeed;            // The speed at which the arm can extend and retract.
+
+    float leftTriggerLast;
 
     void Awake()
     {
@@ -78,6 +83,16 @@ public class Hand : MonoBehaviour
         // If the hand is holding on to something.
         else if(state == State.HOLDING)
         {
+            if(leftTriggerLast < 0f && InputHandler.leftTrigger > 0f)
+            {
+                holdPosition = ghostHand.transform.position;
+                holdRotation = ghostHand.transform.rotation;
+                holdDistance = Vector3.Distance(body.position, ghostHand.transform.position);
+                distanceJoint.distance = holdDistance;
+            }
+
+            distanceJoint.connectedAnchor = transform.position;
+
             // We just position and rotate the hand like it was at the beginning of the hold action.
             transform.position = holdPosition;
             transform.rotation = holdRotation;
@@ -109,6 +124,8 @@ public class Hand : MonoBehaviour
                 state = State.FREE;
             }
         }
+
+        leftTriggerLast = InputHandler.leftTrigger;
     }
 
     private void OnCollisionStay2D(Collision2D collision)
