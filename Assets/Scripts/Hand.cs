@@ -44,7 +44,7 @@ public class Hand : MonoBehaviour
             if (InputHandler.rightStick != Vector2.zero)
                 direction = InputHandler.rightStick.normalized;
 
-            distance = (InputHandler.rightTrigger + 1f) / 2f;
+            distance = InputHandler.rightStick.magnitude;
             float actualDistance = Mathf.Lerp(minDistance, maxDistance, distance);
 
             LayerMask mask = LayerMask.GetMask("Platform");
@@ -66,7 +66,7 @@ public class Hand : MonoBehaviour
         {
             transform.position = holdPosition;
             transform.rotation = holdRotation;
-            if(InputHandler.rightBumper == false)
+            if(InputHandler.rightTrigger < 0f)
             {
                 distanceJoint.enabled = false;
                 state = State.FREE;
@@ -76,7 +76,7 @@ public class Hand : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if(state == State.FREE && InputHandler.rightBumper)
+        if(state == State.FREE && InputHandler.rightTrigger > 0f)
         {
             Debug.Log(transform.position);
             holdPosition = transform.position;
