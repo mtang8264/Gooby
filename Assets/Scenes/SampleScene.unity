@@ -596,8 +596,10 @@ MonoBehaviour:
   maxDistance: 2.5
   distance: 0
   direction: {x: 0, y: 0}
+  holdDistance: 0
   holdPosition: {x: 0, y: 0, z: 0}
   holdRotation: {x: 0, y: 0, z: 0, w: 0}
+  armExtentionSpeed: 2
 --- !u!58 &670602115
 CircleCollider2D:
   m_ObjectHideFlags: 0

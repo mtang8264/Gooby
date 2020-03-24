@@ -20,9 +20,14 @@ public class Hand : MonoBehaviour
     Vector2 direction;
 
     [SerializeField]
+    float holdDistance;
+    [SerializeField]
     Vector3 holdPosition;
     [SerializeField]
     Quaternion holdRotation;
+
+    [SerializeField]
+    float armExtentionSpeed;
 
     void Awake()
     {
@@ -66,6 +71,21 @@ public class Hand : MonoBehaviour
         {
             transform.position = holdPosition;
             transform.rotation = holdRotation;
+            if(InputHandler.rightBumper)
+            {
+                holdDistance -= armExtentionSpeed * Time.deltaTime;
+                if (holdDistance < minDistance)
+                    holdDistance = minDistance;
+            }
+            if(InputHandler.leftBumper)
+            {
+                holdDistance += armExtentionSpeed * Time.deltaTime;
+                if (holdDistance > maxDistance)
+                    holdDistance = maxDistance;
+            }
+
+            distanceJoint.distance = holdDistance;
+
             if(InputHandler.rightTrigger < 0f)
             {
                 distanceJoint.enabled = false;
@@ -81,7 +101,7 @@ public class Hand : MonoBehaviour
             Debug.Log(transform.position);
             holdPosition = transform.position;
             holdRotation = transform.rotation;
-            float holdDistance = Vector3.Distance(transform.position, body.position);
+            holdDistance = Vector3.Distance(transform.position, body.position);
             distanceJoint.enabled = true;
             distanceJoint.connectedAnchor = transform.position;
             distanceJoint.distance = holdDistance;
