@@ -7,13 +7,13 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
 
     [SerializeField]
-    float speed = 1f;
+    float speed = 1f;                                       // The max speed the player can move horizontally.
     [SerializeField]
-    float jumpForce;
-    private bool jumpFlag;
+    float jumpForce;                                        // The force applied to cause the player to jump
+    private bool jumpFlag;                                  // This is just a flag so that I can check if the player has pressed the jump button but apply the force in FixedUpdate.
     [SerializeField]
-    private bool grounded;
-    public bool isGrounded { get { return grounded; } }
+    private bool grounded;                                  // A read of wether or not the player is grounded.
+    public bool isGrounded { get { return grounded; } }     // This getter allows other classes to see wether the player is grounded but not have access to set it.
 
     void Awake()
     {
@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        // The X button calls a jump during the next fixed update.
         if(Input.GetButtonDown("X"))
         {
             jumpFlag = true;
@@ -35,20 +36,29 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // The left stick is used to figure out how fast the player should move.
         Vector2 movement = new Vector2(InputHandler.leftStick.x, 0f);
         movement *= speed;
         rb.AddForce(movement, ForceMode2D.Force);
 
-        if(jumpFlag)
+        // Check if the player is grounded.
+        grounded = GroundCheck();
+
+        // If the jump flag was set
+        if (jumpFlag)
         {
+            // Turn of the jump flag
             jumpFlag = false;
+            // If the body is grounded it applies an impulse causing the player to jump.
             if(grounded)
                 rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
-
-        grounded = GroundCheck();
     }
 
+    /*
+     * To check if the player is grounded we raycast down from the body of the player
+     * starting just below its collider for a short distance.
+     */
     bool GroundCheck()
     {
         Ray2D ray = new Ray2D(new Vector2(transform.position.x, transform.position.y - 0.51f), Vector2.down);
