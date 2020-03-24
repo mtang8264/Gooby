@@ -82,15 +82,15 @@ public class Hand : MonoBehaviour
             transform.position = holdPosition;
             transform.rotation = holdRotation;
 
-            // The right bumper causes the arm to retract.
-            if(InputHandler.rightBumper)
+            // The triangle button causes the arm to retract.
+            if(InputHandler.triangle)
             {
                 holdDistance -= armExtentionSpeed * Time.deltaTime;
                 if (holdDistance < minDistance)
                     holdDistance = minDistance;
             }
-            // The left bumper causes the arm to extend.
-            if(InputHandler.leftBumper)
+            // The circle buttons causes the arm to extend.
+            if(InputHandler.circle)
             {
                 holdDistance += armExtentionSpeed * Time.deltaTime;
                 if (holdDistance > maxDistance)
