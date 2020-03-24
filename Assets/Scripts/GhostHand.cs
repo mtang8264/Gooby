@@ -78,9 +78,17 @@ public class GhostHand : MonoBehaviour
     private void OnCollisionStay2D(Collision2D collision)
     {
         colliding = true;
+        foreach(SpriteRenderer sr in sprites)
+        {
+            sr.color = new Color(1f, 1f, 1f, 0.5f);
+        }
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
         colliding = false;
+        foreach (SpriteRenderer sr in sprites)
+        {
+            sr.color = new Color(0f, 0f, 0f, 0.5f);
+        }
     }
 }

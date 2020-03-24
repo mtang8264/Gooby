@@ -32,7 +32,7 @@ public class Hand : MonoBehaviour
     [SerializeField]
     float armExtentionSpeed;            // The speed at which the arm can extend and retract.
 
-    float leftTriggerLast;
+    bool leftBumperPressed = false;
 
     void Awake()
     {
@@ -83,12 +83,17 @@ public class Hand : MonoBehaviour
         // If the hand is holding on to something.
         else if(state == State.HOLDING)
         {
-            if(leftTriggerLast < 0f && InputHandler.leftTrigger > 0f)
+            if(InputHandler.leftBumper && !leftBumperPressed)
             {
+                leftBumperPressed = true;
                 holdPosition = ghostHand.transform.position;
                 holdRotation = ghostHand.transform.rotation;
                 holdDistance = Vector3.Distance(body.position, ghostHand.transform.position);
                 distanceJoint.distance = holdDistance;
+            }
+            else if(InputHandler.leftBumper == false)
+            {
+                leftBumperPressed = false;
             }
 
             distanceJoint.connectedAnchor = transform.position;
@@ -124,8 +129,6 @@ public class Hand : MonoBehaviour
                 state = State.FREE;
             }
         }
-
-        leftTriggerLast = InputHandler.leftTrigger;
     }
 
     private void OnCollisionStay2D(Collision2D collision)
