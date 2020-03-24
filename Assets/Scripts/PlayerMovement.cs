@@ -50,8 +50,8 @@ public class PlayerMovement : MonoBehaviour
             // Turn of the jump flag
             jumpFlag = false;
             // If the body is grounded it applies an impulse causing the player to jump.
-            if(grounded)
-                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            //if(grounded)
+                //rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
     }
 
