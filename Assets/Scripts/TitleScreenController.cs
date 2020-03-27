@@ -6,7 +6,13 @@ using UnityEngine.SceneManagement;
 public class TitleScreenController : MonoBehaviour
 {
     [SerializeField]
-    int sceneToLoad;
+    int playgroundIdx, gameIdx;
+    [SerializeField]
+    bool playGame;
+    [SerializeField]
+    RectTransform button;
+    [SerializeField]
+    Vector3 playgroundPos, gamePos;
 
     void Start()
     {
@@ -15,9 +21,30 @@ public class TitleScreenController : MonoBehaviour
 
     void Update()
     {
-        if(InputHandler.x)
+        if(InputHandler.leftStick.normalized == Vector2.up || InputHandler.rightStick.normalized == Vector2.up)
         {
-            SceneManager.LoadScene(sceneToLoad);
+            playGame = false;
+        }
+        else if(InputHandler.leftStick.normalized == Vector2.down || InputHandler.rightStick.normalized == Vector2.down)
+        {
+            playGame = true;
+        }
+
+        if(playGame)
+        {
+            button.anchoredPosition = gamePos;
+            if(InputHandler.x)
+            {
+                SceneManager.LoadScene(gameIdx);
+            }
+        }
+        else
+        {
+            button.anchoredPosition = playgroundPos;
+            if (InputHandler.x)
+            {
+                SceneManager.LoadScene(playgroundIdx);
+            }
         }
     }
 }
