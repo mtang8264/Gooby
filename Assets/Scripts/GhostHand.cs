@@ -41,7 +41,7 @@ public class GhostHand : MonoBehaviour
             // The distance is determined by how far the player holds the right stick and then is used as a lerp proportion between min and max.
             distance = InputHandler.rightStick.magnitude;
             float actualDistance = Mathf.Lerp(minDistance, maxDistance, distance);
-            Debug.Log(actualDistance);
+            // Debug.Log(actualDistance);
 
             /* This section ensures that the hand never extend too far into a solid platform.
              * The mask ensures we only collide with platforms.
