@@ -1,6 +1,7 @@
 Gooby
 
 This is a midterm project made by Michael Poltronieri Tang.
+The game is designed to be played using a PS4 controller.
 All assets are original creations of Michael Poltronieri Tang unless listed below.
 
 TextMeshPro is supplied by Unity Technology
